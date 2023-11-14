@@ -1,0 +1,45 @@
+{
+  "name": "cell",
+  "version": "1.0.0",
+  "description": "Simple publish-subscribe based state management for Javascript/Typescript applications",
+  "main": "./lib/es/index.js",
+  "module": "./lib/es/index.js",
+  "types": "./lib/es/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npm run compile-ts",
+    "clean": "rimraf ./lib",
+    "compile-ts": "npm run clean && tsc -p tsconfig-esm.json && tsc -p tsconfig-cjs.json",
+    "test": "npm run compile-ts && jest",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivekmunde/cell.git"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "javascript",
+    "state management"
+  ],
+  "author": "Vivek Munde",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vivekmunde/cell/issues"
+  },
+  "homepage": "https://github.com/vivekmunde/cell#readme",
+  "peerDependencies": {
+    "pusu": "1.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "babel-jest": "^25.5.1",
+    "jest": "^25.5.4",
+    "pusu": "1.1.0",
+    "typescript": "^5.2.2"
+  }
+}

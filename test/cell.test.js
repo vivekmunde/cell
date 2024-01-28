@@ -33,23 +33,23 @@ describe("cell", () => {
     });
   });
 
-  test("Should check isEqual type to be a function", () => {
+  test("Should check areEqual type to be a function", () => {
     expect.hasAssertions();
 
     const { subscribe } = cell({});
 
     const isEqualTypes = [true, 123, "string", Symbol("S"), [1, 2, 3]];
 
-    isEqualTypes.forEach((isEqual) => {
+    isEqualTypes.forEach((areEqual) => {
       expect(() => {
         const unsubscribe = subscribe(
           () => {},
           (s) => s,
-          isEqual
+          areEqual
         );
 
         unsubscribe();
-      }).toThrow(new Error("isEqual must be a function."));
+      }).toThrow(new Error("areEqual must be a function."));
     });
   });
 
@@ -68,7 +68,7 @@ describe("cell", () => {
   test("Should return changed state", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "x" });
+    const { subscribe, publish } = cell({ name: "x" });
 
     let expectedState = { name: "x" };
 
@@ -76,7 +76,7 @@ describe("cell", () => {
       expect(state).toEqual(expectedState);
     });
 
-    update(() => {
+    publish(() => {
       expectedState = { name: "y" };
 
       return { name: "y" };
@@ -88,18 +88,18 @@ describe("cell", () => {
   test("Should unsubscribe state changes", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "x" });
+    const { subscribe, publish } = cell({ name: "x" });
 
     const subscriber = jest.fn();
 
     const unsubscribe = subscribe(subscriber);
 
-    update(() => ({ name: "a" }));
+    publish(() => ({ name: "a" }));
 
     unsubscribe();
 
-    update(() => ({ name: "b" }));
-    update(() => ({ name: "c" }));
+    publish(() => ({ name: "b" }));
+    publish(() => ({ name: "c" }));
 
     expect(subscriber).toHaveBeenCalledTimes(2);
   });
@@ -107,7 +107,7 @@ describe("cell", () => {
   test("Should set current state as argument", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "x" });
+    const { subscribe, publish } = cell({ name: "x" });
 
     let expectedState = { name: "x" };
 
@@ -117,7 +117,7 @@ describe("cell", () => {
 
     const unsubscribe = subscribe(subscriber);
 
-    update((state) => {
+    publish((state) => {
       expectedState = { name: "x" };
 
       expect(state).toEqual(expectedState);
@@ -127,7 +127,7 @@ describe("cell", () => {
       return { name: "y" };
     });
 
-    update((state) => {
+    publish((state) => {
       expectedState = { name: "y" };
 
       expect(state).toEqual(expectedState);
@@ -143,7 +143,7 @@ describe("cell", () => {
   test("Should return selected state (I)", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "a", address: "x" });
+    const { subscribe, publish } = cell({ name: "a", address: "x" });
 
     let expectedState = "a";
 
@@ -154,11 +154,11 @@ describe("cell", () => {
       (state) => state.name
     );
 
-    update((state) => {
+    publish((state) => {
       return { ...state, address: "y" };
     });
 
-    update((state) => {
+    publish((state) => {
       expectedState = "b";
 
       return { ...state, name: "b" };
@@ -170,7 +170,11 @@ describe("cell", () => {
   test("Should return selected state (II)", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "a", address: "x", phone: 123 });
+    const { subscribe, publish } = cell({
+      name: "a",
+      address: "x",
+      phone: 123,
+    });
 
     let expectedState = "a, x, 123";
 
@@ -181,13 +185,13 @@ describe("cell", () => {
       (state) => [state.name, state.address, state.phone].join(", ")
     );
 
-    update((state) => {
+    publish((state) => {
       expectedState = "a, y, 123";
 
       return { ...state, address: "y" };
     });
 
-    update((state) => {
+    publish((state) => {
       expectedState = "b, y, 123";
 
       return { ...state, name: "b" };
@@ -199,7 +203,11 @@ describe("cell", () => {
   test("Should return selected state (III)", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "a", address: "x", phone: 123 });
+    const { subscribe, publish } = cell({
+      name: "a",
+      address: "x",
+      phone: 123,
+    });
 
     let expectedState = { name: "a", phone: 123 };
 
@@ -210,13 +218,13 @@ describe("cell", () => {
       (state) => ({ name: state.name, phone: state.phone })
     );
 
-    update((state) => {
+    publish((state) => {
       expectedState = { name: "a", phone: 123 };
 
       return { ...state, address: "y" };
     });
 
-    update((state) => {
+    publish((state) => {
       expectedState = { name: "b", phone: 321 };
 
       return { ...state, name: "b", phone: 321 };
@@ -228,7 +236,11 @@ describe("cell", () => {
   test("Should use equality comparator", () => {
     expect.hasAssertions();
 
-    const { subscribe, update } = cell({ name: "a", address: "x", phone: 123 });
+    const { subscribe, publish } = cell({
+      name: "a",
+      address: "x",
+      phone: 123,
+    });
 
     let expectedState = { name: "a" };
 
@@ -242,11 +254,11 @@ describe("cell", () => {
       }
     );
 
-    update((state) => {
+    publish((state) => {
       return { ...state, address: "y" };
     });
 
-    update((state) => {
+    publish((state) => {
       expectedState = { name: "b" };
 
       return { ...state, name: "b", phone: 321 };

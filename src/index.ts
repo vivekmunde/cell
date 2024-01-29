@@ -75,7 +75,7 @@ const cell = <TState>(
    */
   publish: (reducer: TReducer<TState>) => void;
 } => {
-  const publication = pusu.createPublication<TState>("cell");
+  const publication = pusu.createPublication<TState>({ name: "cell" });
 
   let previousState = initialState;
   let currentState = initialState;

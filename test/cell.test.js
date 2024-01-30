@@ -58,11 +58,19 @@ describe("cell", () => {
 
     const { subscribe } = cell({ name: "name" });
 
-    const unsubscribe = subscribe((state) => {
+    const unsubscribe1 = subscribe((state) => {
       expect(state).toEqual({ name: "name" });
     });
 
-    unsubscribe();
+    const unsubscribe2 = subscribe(
+      (state) => {
+        expect(state).toEqual("name");
+      },
+      (state) => state.name
+    );
+
+    unsubscribe1();
+    unsubscribe2();
   });
 
   test("Should return changed state", () => {

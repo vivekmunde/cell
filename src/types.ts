@@ -48,7 +48,7 @@ export type TReducer<TState> = (state: TState) => TState;
 /**
  * Configuration options to be provided to the cell being created.
  *
- * @property {string} name - Used in logging. Default: "Unknown".
+ * @property {string} name - Name of the cell. Used in logging. Default: "Unknown".
  * @property {boolean} enableLogging - Enable/disable console logging. Useful in development and/or test environments. If enabled then each action "create" | "publish" | "subscribe" | "unsubscribe" | "notify" gets logged on console with relevent data.
  */
 export type TCellConfiguration = {
@@ -62,7 +62,7 @@ export type TCellConfiguration = {
 export type TLogAction =
   /** When cell is created. */
   | "create"
-  /** When data is published. */
+  /** When state is published. */
   | "publish"
   /** When a subscriber function is subscribed. */
   | "subscribe"

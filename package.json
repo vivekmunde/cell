@@ -1,7 +1,7 @@
 {
   "name": "cell",
   "version": "1.0.0",
-  "description": "Distributed state management for Javascript/Typescript applications",
+  "description": "Distributed state management for JavaScript applications",
   "main": "./lib/es/index.js",
   "module": "./lib/es/index.js",
   "types": "./lib/es/index.d.ts",

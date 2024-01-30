@@ -20,6 +20,7 @@ Creates a `cell` with the default state and state accessing & updating methods.
 declare const cell: <TState>(initialState: TState, config?: TCellConfiguration) => {
   publish: (reducer: TReducer<TState>) => void;
   subscribe: <TSelectedState>(subscriber: TSubscriber<TSelectedState>, selector?: TSelector<TState, TSelectedState> | undefined, areEqual?: TAreEqual<TSelectedState> | undefined) => TUnsubscribe;
+  state: () => TState;
 };
 ```
 
@@ -34,6 +35,7 @@ A cell object having the state accessing & updating methods.
 
 - `publish`: A function to update the state in cell and publish the change to all the subscribers.
 - `subscribe`: A subscriber function to subscribe to the state changes. It returns a function to unsubscribe the subscriber from state changes.
+- `state`: A function to get the current state of the cell.
 
 ## Configuration
 
@@ -393,6 +395,18 @@ const unsubscribe = subscribe(...);
 
 // E.g. Unsubscribe before the components are removed from DOM
 unsubscribe();
+```
+
+# Get current state without subscribing to state changes
+
+Use the `state` function to get the current state of the cell.
+
+```
+import cell from 'cell';
+
+const dashboardCell = cell({ loading: false }));
+
+const state = dashboardCell.state();
 ```
 
 # Caching

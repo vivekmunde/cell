@@ -73,6 +73,18 @@ describe("cell", () => {
     unsubscribe2();
   });
 
+  test("Should return the current state", () => {
+    expect.hasAssertions();
+
+    const cellInstance = cell({ name: "x" });
+
+    expect(cellInstance.state()).toEqual({ name: "x" });
+
+    cellInstance.publish(() => ({ name: "y" }));
+
+    expect(cellInstance.state()).toEqual({ name: "y" });
+  });
+
   test("Should return changed state", () => {
     expect.hasAssertions();
 

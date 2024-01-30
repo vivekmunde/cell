@@ -41,6 +41,11 @@ const cell = <TState>(
     selector?: TSelector<TState, TSelectedState>,
     areEqual?: TAreEqual<TSelectedState>
   ) => TUnsubscribe;
+
+  /**
+   * Returns the current state of the cell.
+   */
+  state: () => TState;
 } => {
   const _name = config?.name;
   const _loggingEnabled = config?.enableLogging;
@@ -156,7 +161,9 @@ const cell = <TState>(
     pusu.publish(publication, currentState);
   };
 
-  return { publish, subscribe };
+  const getState = (): TState => currentState;
+
+  return { publish, subscribe, state: getState };
 };
 
 export default cell;

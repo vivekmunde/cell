@@ -33,7 +33,7 @@ const cell = <TState>(
    *
    * @param {TSubscriber} subscriber - A subscriber function to be called each time the state change is published. The subscriber function will recieve the data selected and returned by the selector function. If selector is not supplied then the subscruber function will receive the complete state.
    * @param {TSelector} selector - A selector function to select the required state value(s) from the state and return the selected state.
-   * @param {TAreEqual} areEqual - An equality comparator function which receives previous and current selected state. This equality comparater function can be used to determine if the current selected state has changed from the previous selected state. If there is no change in the selected state then the subscribers will not be called. True: Meaning the selected state has not changed. False: Meaning the selected state has changed. If not passed then it uses the default comparator function (current, previous) => (current === previous).
+   * @param {TAreEqual} areEqual - An equality comparator function which receives current and previous selected states. This equality comparater function can be used to determine if the current selected state has changed from the previous selected state. If there is no change in the selected state then the subscribers will not be called. It needs to return a boolean vvalue. True: Meaning the selected state has not changed. False: Meaning the selected state has changed. If not passed then it uses the default comparator function (current, previous) => (current === previous).
    * @returns {TUnsubscribe} An unsubscriber function, which when called unsubscribes the subscriber function from from the state updates.
    */
   subscribe: <TSelectedState>(

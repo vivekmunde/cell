@@ -21,9 +21,10 @@ export type TSelector<TState, TSelectedState> = (
 ) => TSelectedState;
 
 /**
- * An equality comparator function which receives previous and current selected state.
+ * An equality comparator function which receives current and previous selected states.
  * This equality comparater function can be used to determine if the current selected state has changed from the previous selected state.
  * If there is no change in the selected state then the subscribers will not be called.
+ * It needs to return a boolean vvalue.
  * True: Meaning the selected state has not changed.
  * False: Meaning the selected state has changed.
  * If not passed then it uses the default comparator function (current, previous) => (current === previous).
